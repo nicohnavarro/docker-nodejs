@@ -35,3 +35,10 @@ GET “name”
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale name-container=2(number)
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale docker-node-app=2 
 (see logs of both containers)
+
+
+.profile on server
+add .env file with all global variables
+set -o allexport; source /root/.env; set +o allexport
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --no-deps name-app
