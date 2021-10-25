@@ -9,7 +9,13 @@ const {
   deletePost,
 } = require("../controllers/postController");
 
-router.route("/").get(getAllPost).post(createPost);
-router.route("/:id").get(getPost).patch(updatePost).delete(deletePost);
+const protect = require("../middlewares/authMiddleware");
+
+router.route("/").get(protect, getAllPost).post(protect, createPost);
+router
+  .route("/:id")
+  .get(protect, getPost)
+  .patch(protect, updatePost)
+  .delete(protect, deletePost);
 
 module.exports = router;
