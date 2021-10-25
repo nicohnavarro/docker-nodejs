@@ -7,7 +7,7 @@ const {
   MONGO_USER,
   REDIS_URL,
   REDIS_PORT,
-  SESSION_SECRET
+  SESSION_SECRET,
 } = require("./config/config");
 const session = require("express-session");
 const redis = require("redis");
@@ -37,23 +37,27 @@ const connectWithRetry = () => {
 };
 
 connectWithRetry();
-
-app.use(session({
-  store: new RedisStore({
-    client:redisClient
-  }),
-  secret: SESSION_SECRET,
-  cookie:{
-    secure:false,
-    resave:false,
-    httpOnly:true,
-    maxAge:300000
-  }
-}))
-
+app.enable("trust proxy");
+app.use(
+  session({
+    store: new RedisStore({
+      client: redisClient,
+    }),
+    secret: SESSION_SECRET,
+    cookie: {
+      secure: false,
+      resave: false,
+      httpOnly: true,
+      maxAge: 300000,
+    },
+  })
+);
+let counter = 0;
 app.use(express.json());
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
+  
   res.send("<h1>Docker + Node + Redis + Mongo</h1>");
+  console.log(`Counting: ${counter++}`)
 });
 
 app.use("/api/v1/posts", postRouter);

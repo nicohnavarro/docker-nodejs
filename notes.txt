@@ -1,0 +1,37 @@
+docker build -t  => build image with tag name
+docker image  ls => list images
+docker image rm “id” -f  => remove images
+
+docker run ....
+docker run --name node-app -d -v $(pwd):/app:ro -v /app/node_modules -p 3000:3000 node-app
+-v for volume
+-p for port
+-d for deamon
+--name rename container
+
+docker rm “name” -fv => remove container with volumes
+docker volume ls => list volumes
+docker volume prune => remove old volumes
+
+docker-compose up -d
+docker-compose down -v => to remove all volumes
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+
+exec -it container_name bash 
+exec -it mongo_container mongo -u user -p password
+ 
+docker logs container_ name -f
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build -V
+
+docker exec -it docker-node_redis_1 bash     :D
+docker exec -it docker-node_redis_1 redis-cli
+>redis-cli
+KEYS *
+GET “name”
+
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale name-container=2(number)
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale docker-node-app=2 
+(see logs of both containers)
