@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  docker-node-app:
+    build:
+      context: .
+      args: 
+        NODE_ENV: test
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+    command: npm run test
+    env_file:
+      - ./.env.test
