@@ -16,6 +16,7 @@ let redisClient = redis.createClient({
   host: REDIS_URL,
   port: REDIS_PORT,
 });
+const cors = require("cors");
 
 const postRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
@@ -38,6 +39,7 @@ const connectWithRetry = () => {
 
 connectWithRetry();
 app.enable("trust proxy");
+app.use(cors({}));
 app.use(
   session({
     store: new RedisStore({
@@ -55,9 +57,8 @@ app.use(
 let counter = 0;
 app.use(express.json());
 app.get("/api", (req, res) => {
-  
   res.send("<h1>Docker + Node + Redis + Mongo</h1>");
-  console.log(`Counting: ${counter++}`)
+  console.log(`Counting: ${counter++}`);
 });
 
 app.use("/api/v1/posts", postRouter);
